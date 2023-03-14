@@ -4,7 +4,13 @@ import { auth, provider } from './firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 function Home() {
-    const [ user ] = useAuthState(auth)
+    const [ user, loading, error ] = useAuthState(auth)
+    if (loading) {
+        return <div>Loading...</div>
+    }
+    if (error) {
+        return <div>Error: {error.message}</div>
+    }
   return (
     <div>
         {user ? (
@@ -43,7 +49,6 @@ function SignOutButton() {
 }
 function UserInfo() {
     
-    const photo = auth.currentUser.photoURL
     return (
         <div className='userInfo'>
             <img src={auth.currentUser.photoURL} alt="" />
